@@ -86,7 +86,7 @@ TaiT-CRT-Interface-Skill is a Codex image generation skill that transforms user-
 
 1. 先展示色卡，请你选择 `经典`、`粉黛`、`极客01`、`极客02`、`游戏01`、`游戏02`，或回复 `如图`。
 色卡如下所示：
-<img src="assets/tait-crt-interface-color-card.png" alt="tait-crt-interface 色卡">
+<p align="left"><img src="assets/tait-crt-interface-color-card.png" alt="tait-crt-interface 色卡" width="30%"></p>
 2. 再选择 `3:4`、`4:3`、`9:16`、`16:9`，也可以输入其他比例。
 
 也可以在第一次调用时直接标明色卡和比例，从而立即生成：
