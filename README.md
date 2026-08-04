@@ -6,6 +6,17 @@ TaiT-CRT-Interface-Skill is a Codex image generation skill that transforms user-
 
 ---
 
+## 视觉特征
+
+- 一个占据画面主要面积的像素风主体，作为无边框系统壁纸
+- 早期 Macintosh、Minitel 与 8-bit 计算机界面语言
+- 3–6 个大小、比例和位置各异的悬浮视窗
+- 1–3 个用于展示五官、饰品或局部特征的元素提取视窗
+- 主体、文字、图标和窗口共用同一个方形像素网格
+- 棋盘格光学灰度、硬边锯齿、扫描线、辉光、噪点和信号干扰
+- 四周固定的 CRT 球面桶形畸变
+- 多套预设色卡，也可以根据上传图片自动创作 2–5 色
+
 ## 生成示例 / Examples
 
 <table border="1" cellspacing="0" cellpadding="8">
@@ -53,22 +64,6 @@ TaiT-CRT-Interface-Skill is a Codex image generation skill that transforms user-
 
 ---
 
-### 调用名称
-
-在codex中可调用的名称为：`tait-crt-interface-skill`。
-
-### 视觉特征
-
-- 一个占据画面主要面积的像素风主体，作为无边框系统壁纸
-- 早期 Macintosh、Minitel 与 8-bit 计算机界面语言
-- 3–6 个大小、比例和位置各异的悬浮视窗
-- 1–3 个用于展示五官、饰品或局部特征的元素提取视窗
-- 主体、文字、图标和窗口共用同一个方形像素网格
-- 棋盘格光学灰度、硬边锯齿、扫描线、辉光、噪点和信号干扰
-- 四周固定的 CRT 球面桶形畸变
-- 多套预设色卡，也可以根据上传图片自动创作 2–5 色
-- 固定署名 `tait-crt-interface-skill`
-
 ### 安装
 
 将整个 Skill 文件夹放入 Codex 的技能目录：
@@ -77,7 +72,7 @@ TaiT-CRT-Interface-Skill is a Codex image generation skill that transforms user-
 ~/.codex/skills/tait-crt-interface-skill
 ```
 
-如果 Skill 没有立即出现，请重启 Codex。
+在codex中可调用的名称为：`tait-crt-interface-skill`。
 
 ### 使用方法
 
@@ -87,20 +82,22 @@ TaiT-CRT-Interface-Skill is a Codex image generation skill that transforms user-
 使用 $tait-crt-interface-skill 把这张图片生成 CRT 复古电脑界面插画
 ```
 
-如果没有提前指定，Skill 会分两轮询问：
+但是这种情况下，没有提前指定色彩和比例，Skill 会分两轮对话询问：
 
 1. 先展示色卡，请你选择 `经典`、`粉黛`、`极客01`、`极客02`、`游戏01`、`游戏02`，或回复 `如图`。
+色卡如下所示：
+<img src="assets/tait-crt-interface-color-card.png" alt="tait-crt-interface 色卡">
 2. 再选择 `3:4`、`4:3`、`9:16`、`16:9`，也可以输入其他比例。
 
-也可以在第一次调用时直接写清色卡和比例，从而立即生成：
+也可以在第一次调用时直接标明色卡和比例，从而立即生成：
 
 ```text
 使用 $tait-crt-interface-skill 生成图片，极客02色卡，4:3比例
 ```
 
-### 输出
+另外，也鼓励大家开发此skill的更多玩法，如通过纯文字描述抽象视觉意象生成、带有指定文字信息的复古海报生成、在弹窗中指定自己需要的分析类型（如解剖、六角战力图、运势、场记板、化学式等等），不限玩法，用户的指令已被设定为第一层级，可覆盖本skill大部分固有设定。
 
-每次调用只生成并返回一张最终位图。Skill 不展示内部提示词，不自动生成多个方案，也不会为了制造低保真效果而先生成低分辨率小图再放大。
+---
 
 ### 文件结构
 
