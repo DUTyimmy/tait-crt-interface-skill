@@ -22,7 +22,7 @@ Recognize `经典`, `粉黛`, `极客01`, `极客02`, `游戏01`, `游戏02`, an
 ## Non-Negotiable Invariants
 
 - Generate exactly one final image at the selected ratio and the tool's native dimensions. Never make a low-resolution precursor, request `480x720`, resize, enhance, produce variants, retry automatically, or expose the prompt.
-- Treat uploads as subject references, never as cutout masks, tracing templates, or sources for automatic pixelation.
+- Treat uploads only as sources of a few identity anchors, never as cutout masks, tracing templates, contour maps, or sources for automatic pixelation. Make the independently authored pixel subject the first visual priority: recognizable traits may survive, but caricature, abstraction, personality, and retro illustration quality outrank literal fidelity.
 - Draw exactly one full primary subject directly on the base field as borderless operating-system wallpaper behind every window. Its silhouette covers at least 50% of the canvas; target 60%-80%. Never repeat it. Include 1-3 feature-extraction windows showing only distinctive partial elements—not another full subject.
 - Preserve 20%-30% connected open field while using 3-6 foreground windows with clear size hierarchy, staggered overlap, multi-quadrant balance, a full-width menu, one open French drop-down, and exactly one cursor.
 - Use only the resolved palette. Named palettes use their listed colors; `如图` uses its derived 2-5 colors. Represent optical gray or half-tone with a regular alternating checkerboard made from the palette's darkest and lightest colors, never an invented gray.
@@ -36,13 +36,17 @@ Compile only requirements that become pixels. Answer these fields in order.
 
 ### 1. Abstraction Blueprint
 
-Record internally:
+Treat the subject illustration as priority 1. When literal likeness conflicts with a strong authored cartoon, keep only the identity anchors and choose the stronger cartoon. Record internally:
 
-1. `traits`: keep only 3-5 high-information features such as silhouette, hair mass, head/body proportion, expression, pose, hand-object relation, accessories, appendages, or signature parts; discard everything else.
-2. `shape plan`: redraw the subject as a circa-1980s CRT terminal cartoon from 5-9 flat masses, preferably 5-7. Merge anatomy and small parts, delete secondary detail, replace modeled volume with cutouts/negative space, and exaggerate 1-2 traits. Favor block caricature, blunt geometry, awkward proportion, comic ugliness, and industrial charm over likeness fidelity.
-3. `pixel plan`: choose one global square base cell `p` for the entire interface, approximately `short canvas edge / 384` at native resolution. Draw every content pixel as one `p x p` cell. Use an approximately `30 x 30` coarse planning grid only to limit the subject's contour decisions and feature density; translate each decision into solid runs of the same global cells, never a larger subject-only pixel. Do not render or resize an intermediate image.
+1. `identity anchors`: describe only 3-5 high-information traits—such as hair mass, unusual facial spacing, pose, hand-object relation, accessory, appendage, or signature part. Do not record the photograph's full outline, lighting, surface detail, or anatomical map.
+2. `source severance`: after extracting those anchors, rebuild from the short semantic description rather than the image geometry. Deliberately abandon the original cutout contour, crop logic, modeled volume, shadow pattern, and photographic edge continuity. The new subject must be impossible to obtain by masking the source and adding a mosaic filter.
+3. `caricature mutation`: choose 2-3 distinctive traits to enlarge, compress, skew, simplify, or make awkward. Change at least three structural relationships—such as head/body ratio, facial spacing, limb thickness, pose angle, silhouette rhythm, object scale, or accessory size. Aim for an opinionated 1980s terminal mascot: blunt, funny, strange, industrial, charmingly ugly, and visually memorable while the selected anchors preserve loose recognition.
+4. `mass plan`: redraw from 5-9 flat interlocking masses, preferably 5-7. Merge anatomy and small parts, replace modeled volume with cutouts and negative space, and reduce a face to a few clusters for eyes, nose, and mouth. Delete pores, hair strands, folds, subtle expression modeling, and secondary detail.
+5. `pixel topology`: choose one global square base cell `p`, approximately `short canvas edge / 384`, for the entire interface. Use an approximately `30 x 30` planning grid only as the subject's contour/feature complexity budget, then build every subject shape as complete integer-aligned runs of the same `p x p` cells used by UI and text. Construct diagonals as deliberate stair sequences and curves as stepped clusters. Permit no half cells, stretched or rotated cells, sub-cell fragments, shifted rows, broken checker patterns, accidental cracks, isolated debris, or mixed pixel scales. Do not render or resize an intermediate image.
 
-Make reconstruction visibly independent from the photograph: reduce a face to a few clusters for eyes, nose, and mouth; reduce hair, clothing, limbs, and objects to large silhouettes; omit pores, strands, folds, subtle expressions, anatomy modeling, and exact contour changes. Assign broad tonal planes with solid palette colors plus a regular 50% darkest/lightest checkerboard in roughly 15%-35% of the visible subject. Never rely on realistic rendering, cutout, pixel filter, auto-pixelate, blur, antialiasing, gradient transitions, smooth curves, or photographic edge continuity.
+Before prompt compilation, run two rejection tests. `Silhouette divergence`: the rebuilt subject must not align closely with the photograph's continuous outer contour, proportions, and pose. `Filter removal`: imagine removing UI and CRT texture; the subject must still read as a separately designed flat cartoon, not a photograph underneath pixelation. If either test fails, simplify and mutate the mass plan instead of adding texture or detail.
+
+Assign broad tonal planes with solid palette colors plus a regular 50% darkest/lightest checkerboard in roughly 15%-35% of the visible subject. Never rely on realistic rendering, cutout, pixel filter, auto-pixelate, blur, antialiasing, gradient transitions, smooth curves, or photographic edge continuity.
 
 ### 2. Attention and Interface Geometry
 
@@ -66,7 +70,7 @@ Cover the frame with dense palette-bound scanlines, sparse noise, one-cell misre
 
 Write four compact internal paragraphs:
 
-1. selected ratio, CRT-cartoon abstraction blueprint, approximately 30x30 contour-detail budget on the global lattice, one wallpaper subject, crop, position, and coverage
+1. selected ratio, semantic source severance, caricature mutations, 5-9-mass CRT-cartoon blueprint, approximately 30x30 contour-detail budget on the global lattice, one wallpaper subject, crop, position, and coverage
 2. window count, constellation, hierarchy, overlap, 1-3 unequal feature extractions, menu, labels, cursor, and reserved signature zone
 3. selected or derived palette, polarity recipe, checkerboard midtone, and one shared subject/UI/text lattice
 4. CRT signal/edge warp, industrial mood, and hard avoids
@@ -89,6 +93,7 @@ Before compiling, choose one option from every axis. User constraints override r
 | extraction count | one-feature / two-unequal-features / three-descending-features |
 | extraction geometry | square+wide / tall+square / wide+tall / square+wide+tall |
 | cartoon treatment | block-caricature / terminal-mascot / Minitel-comic / symbolic-cutout / awkward-industrial |
+| caricature mutation | oversized-feature+compressed-body / facial-spacing+silhouette-skew / blocky-limbs+awkward-pose / amplified-accessory+object-scale / mascot-collapse+comic-ugliness |
 | midtone map | face-side+garment / hair-underplane+limb / torso+hands / back-plane+accessory / distributed-large-planes |
 | polarity | light-field / dark-field / split-local-fields |
 | signal emphasis | persistence / row-jitter / sync-band / edge-noise / pixel-misregistration |
@@ -105,22 +110,22 @@ Compatibility rules:
 1. Complete the Two-Stage Intake Gate. Do not inspect for generation or call image generation until both palette and ratio are known.
 2. Inspect the reference once; extract the abstraction blueprint and, for `如图`, derive the 2-5-color palette.
 3. Select one complete recipe; do not discuss alternatives or default repeatedly to the same layout.
-4. Preflight once: confirm a 5-9-mass cartoon redraw, approximately `30 x 30` contour-detail budget, one global cell `p`, darkest/lightest checkerboard midtone, one borderless subject, 60%-80% target coverage, 1-3 unequal feature extractions, selected ratio/palette, a clear upper-right signature zone, and no realistic/filter/tracing language.
+4. Preflight once: confirm source severance, 3-5 retained identity anchors, at least three altered structural relationships, a 5-9-mass authored cartoon that passes both rejection tests, approximately `30 x 30` contour-detail budget, complete integer-aligned global cells with no broken topology, darkest/lightest checkerboard midtone, one borderless subject, 60%-80% target coverage, 1-3 unequal feature extractions, selected ratio/palette, a clear upper-right signature zone, and no realistic/filter/tracing language.
 5. Compile the prompt once and call built-in image generation exactly once at native resolution.
-6. Run without resizing, passing the resolved palette and recipe polarity:
+6. Before finalization, call `codex_app__load_workspace_dependencies` once and use the returned bundled Python executable, which includes Pillow. Never invoke bare `python`, bare `python3`, or `/usr/bin/python3` for this script. Run without resizing, passing the resolved palette and recipe polarity:
 
    ```bash
-   python scripts/finalize_crt.py --input <generated-image> --output <new-final.png> --palette <comma-separated-hex-colors> --polarity <positive|negative|preserve> --grid-cell 0 --edge-warp 0.12
+   <bundled-python-executable> scripts/finalize_crt.py --input <generated-image> --output <new-final.png> --palette <comma-separated-hex-colors> --polarity <positive|negative|preserve> --grid-cell 0 --edge-warp 0.12
    ```
 
-   Map `light-field` to `positive`, `dark-field` to `negative`, and `split-local-fields` to `preserve`. Resolve the script relative to this file and never overwrite the source.
+   Map `light-field` to `positive`, `dark-field` to `negative`, and `split-local-fields` to `preserve`. Resolve the script relative to this file, verify the selected interpreter with `from PIL import Image` before the run, and never overwrite the source. If the import probe fails, select another reported workspace interpreter rather than installing packages or falling back to system Python.
 7. Inspect once against the Quality Gate. Never regenerate automatically. Return only the finalized image.
 
 ## Quality Gate
 
 - Both intake fields were resolved before generation; the canvas matches the selected ratio and the final palette matches the named or derived choice.
-- The subject reads immediately as an abstract, flat, slightly awkward 1980s CRT cartoon: only 3-5 traits survive through 5-9 large masses; realistic likeness rendering, photographic continuity, modeled detail, cutout edges, and filter appearance do not.
-- Subject complexity reads like an approximately `30 x 30` planning grid, but its displayed pixels use exactly the same `p x p` base cell as window borders, icons, and bitmap glyphs. No subject pixel is several times larger than a UI/text pixel.
+- Priority 1 passes before interface polish: the subject reads as an independently authored, personality-rich 1980s CRT cartoon. Only 3-5 identity anchors survive; at least three structural relationships are visibly redesigned, 2-3 traits are boldly exaggerated, and 5-9 large masses create deliberate funny, strange, or charmingly ugly character. Its silhouette cannot be closely overlaid on the source, and removing UI/CRT texture would not reveal a traced or filtered photograph.
+- Subject complexity reads like an approximately `30 x 30` planning grid, but every displayed pixel uses the same complete, square, integer-aligned `p x p` base cell as window borders, icons, and bitmap glyphs. Stair steps are intentional; no subject pixel is several times larger than a UI/text pixel, and no half-cell, stretched cell, shifted row, broken checker sequence, accidental gap, misaligned island, or stray pixel debris appears.
 - Tonal depth uses flat palette planes plus a 50% checkerboard made only from the palette's darkest and lightest colors. The checkerboard covers roughly 15%-35% of the visible subject in broad connected planes; no invented gray, gradient, or antialiasing appears.
 - Exactly one borderless wallpaper subject covers at least 50%, preferably 60%-80%; no similarly sized copy appears and any detail crop is small and partial.
 - One to three feature-extraction windows appear. Every crop isolates a distinctive partial element, uses the shared cell `p`, and differs from every other extraction in both dimensions and aspect ratio.
@@ -133,7 +138,7 @@ Compatibility rules:
 ## Hard Avoids
 
 - generation before both intake fields are known, asking palette and ratio in one turn when both are absent, reconfirming supplied fields, or silently substituting a default palette/ratio
-- realistic likeness painting, cutout plus pixel filter, auto-pixelation, literal tracing, photographic outlines, polished anatomy, fine hair/pores/folds, smooth shading, blurred or rectangular pixels, subject-only macro pixels larger than UI pixels, unaligned grids, excessive contour decisions beyond the approximate 30x30 planning budget, or subdivided cells
+- realistic likeness painting, source-matching silhouette/proportions/pose, cutout plus pixel filter, mosaic overlay, auto-pixelation, literal tracing, photographic outlines, polished anatomy, fine hair/pores/folds, smooth shading, blurred or rectangular pixels, subject-only macro pixels larger than UI pixels, half/stretched/rotated cells, shifted rows, broken cell topology, unaligned grids, excessive contour decisions beyond the approximate 30x30 planning budget, or subdivided cells
 - subject below 50%, framed primary subject, duplicate/similarly sized subject, centered symmetry, one-sided window weight, equal-size windows, or three similar windows in one row/column
 - colors outside the resolved palette, more than five derived hues, computed gray pixels, alpha, gradients, soft antialiased glow, modern cards, glassmorphism, contemporary icons, clean vector export, 3D, or game HUD
 - missing/flat barrel distortion, identical extraction windows, whole-subject extraction, hidden or altered fixed signature, heavy central distortion, physical monitor housing, logos other than the fixed signature, CTA, long text, low-resolution precursor, resizing, enhancement, retry, variants, or displayed prompt

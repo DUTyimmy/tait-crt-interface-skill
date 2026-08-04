@@ -8,11 +8,48 @@ Turn a portrait, creature, object, or visual theme into a retro illustration bui
 
 ## 参考图 / Examples
 
-| Example 01 | Example 02 |
-|---|---|
-| <!-- 在此添加参考图 01 / Add reference image 01 here --><br><br><br><br> | <!-- 在此添加参考图 02 / Add reference image 02 here --><br><br><br><br> |
-| Example 03 | Example 04 |
-| <!-- 在此添加参考图 03 / Add reference image 03 here --><br><br><br><br> | <!-- 在此添加参考图 04 / Add reference image 04 here --><br><br><br><br> |
+<table border="1" cellspacing="0" cellpadding="8">
+  <thead>
+    <tr>
+      <th align="center">参考图</th>
+      <th align="center">tait-crt-interface生成</th>
+      <th align="center">参考图</th>
+      <th align="center">tait-crt-interface生成</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle"><img src="生成示例/参考图/参考图01.png" alt="参考图 01" width="42"></td>
+      <td align="center" valign="middle"><img src="生成示例/经典a.png" alt="经典a" width="420"></td>
+      <td align="center" valign="middle"><img src="生成示例/参考图/参考图02.png" alt="参考图 02" width="42"></td>
+      <td align="center" valign="middle"><img src="生成示例/极客02a.png" alt="极客02a" width="420"></td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle"><img src="生成示例/参考图/参考图03.png" alt="参考图 03" width="42"></td>
+      <td align="center" valign="middle"><img src="生成示例/极客01a.png" alt="极客01a" width="420"></td>
+      <td align="center" valign="middle"><img src="生成示例/参考图/参考图04.png" alt="参考图 04" width="42"></td>
+      <td align="center" valign="middle"><img src="生成示例/极客01b.png" alt="极客01b" width="420"></td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle"><img src="生成示例/参考图/参考图05.png" alt="参考图 05" width="42"></td>
+      <td align="center" valign="middle"><img src="生成示例/游戏02b.png" alt="游戏02b" width="420"></td>
+      <td align="center" valign="middle"><img src="生成示例/参考图/参考图06.png" alt="参考图 06" width="42"></td>
+      <td align="center" valign="middle"><img src="生成示例/游戏02a.png" alt="游戏02a" width="420"></td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle"><img src="生成示例/参考图/参考图07.png" alt="参考图 07" width="42"></td>
+      <td align="center" valign="middle"><img src="生成示例/游戏01a.png" alt="游戏01a" width="420"></td>
+      <td align="center" valign="middle"><img src="生成示例/参考图/参考图08.png" alt="参考图 08" width="42"></td>
+      <td align="center" valign="middle"><img src="生成示例/极客01c.png" alt="极客01c" width="420"></td>
+    </tr>
+    <tr>
+      <td align="center" valign="middle"><img src="生成示例/参考图/参考图09.png" alt="参考图 09" width="42"></td>
+      <td align="center" valign="middle"><img src="生成示例/经典b.png" alt="经典b" width="420"></td>
+      <td align="center" valign="middle"><img src="生成示例/参考图/参考图10.png" alt="参考图 10" width="42"></td>
+      <td align="center" valign="middle"><img src="生成示例/粉黛a.png" alt="粉黛a" width="420"></td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
