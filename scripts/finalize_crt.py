@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Preserve resolution, warp CRT edges, and enforce the strict two-color palette."""
+"""Preserve resolution and enforce one shared content grid, CRT warp, and two-color tone map."""
 
 from __future__ import annotations
 
 import argparse
+import math
 from pathlib import Path
 
 from PIL import Image
@@ -13,12 +14,8 @@ LIGHT = (222, 228, 224)
 DARK = (46, 56, 45)
 DELTA = tuple(light - dark for light, dark in zip(LIGHT, DARK))
 DENOMINATOR = sum(component * component for component in DELTA)
-BAYER_4X4 = (
-    (0, 8, 2, 10),
-    (12, 4, 14, 6),
-    (3, 11, 1, 9),
-    (15, 7, 13, 5),
-)
+SHADOW_CUTOFF = 0.36
+LIGHT_CUTOFF = 0.64
 
 
 def parse_args() -> argparse.Namespace:
@@ -37,6 +34,12 @@ def parse_args() -> argparse.Namespace:
         type=float,
         default=0.08,
         help="Nearest-cell radial displacement inside the outer 10%% band.",
+    )
+    parser.add_argument(
+        "--grid-cell",
+        type=int,
+        default=0,
+        help="Shared subject/UI/text cell size in pixels; 0 selects about short-edge/384.",
     )
     return parser.parse_args()
 
@@ -64,8 +67,58 @@ def source_coordinate(
     return None
 
 
+def resolve_grid_cell(width: int, height: int, requested: int) -> int:
+    if requested < 0:
+        raise ValueError("--grid-cell must be 0 or a positive integer.")
+    if requested > 0:
+        return requested
+    return max(1, round(min(width, height) / 384))
+
+
+def apply_surface_scanlines(result: Image.Image, period: int) -> int:
+    pixels = result.load()
+    width, height = result.size
+    changed = 0
+    for y in range(period - 1, height, period):
+        for x in range(width):
+            if pixels[x, y] == LIGHT:
+                pixels[x, y] = DARK
+                changed += 1
+    return changed
+
+
+def sampled_light_amount(
+    pixels,
+    coordinate: tuple[int, int] | None,
+    width: int,
+    height: int,
+    cell: int,
+    outside_color: tuple[int, int, int],
+) -> float:
+    if coordinate is None:
+        return projection_to_light(outside_color)
+    sx, sy = coordinate
+    low = cell // 2
+    high = cell - low
+    x0 = max(0, sx - low)
+    y0 = max(0, sy - low)
+    x1 = min(width, sx + high)
+    y1 = min(height, sy + high)
+    total = 0.0
+    count = 0
+    for sample_y in range(y0, y1):
+        for sample_x in range(x0, x1):
+            total += projection_to_light(pixels[sample_x, sample_y])
+            count += 1
+    return total / max(1, count)
+
+
 def finalize(
-    source: Path, destination: Path, polarity: str, edge_warp: float
+    source: Path,
+    destination: Path,
+    polarity: str,
+    edge_warp: float,
+    requested_grid_cell: int,
 ) -> dict[str, object]:
     if destination.suffix.lower() != ".png":
         raise ValueError("Output must be PNG to preserve exact colors.")
@@ -78,32 +131,60 @@ def finalize(
     width, height = image.size
     source_pixels = image.load()
     result = Image.new("RGB", image.size, LIGHT)
-    result_pixels = result.load()
     outside_color = DARK if polarity == "negative" else LIGHT
+    grid_cell = resolve_grid_cell(width, height, requested_grid_cell)
 
     light_count = 0
     dark_count = 0
-    for y in range(height):
-        for x in range(width):
-            coordinate = source_coordinate(x, y, width, height, edge_warp)
-            rgb = source_pixels[coordinate] if coordinate else outside_color
-            amount = projection_to_light(rgb)
-            threshold = (BAYER_4X4[y % 4][x % 4] + 0.5) / 16.0
-            color = LIGHT if amount >= threshold else DARK
-            result_pixels[x, y] = color
-            if color == LIGHT:
-                light_count += 1
+    checker_area = 0
+    for y0 in range(0, height, grid_cell):
+        for x0 in range(0, width, grid_cell):
+            x1 = min(width, x0 + grid_cell)
+            y1 = min(height, y0 + grid_cell)
+            center_x = min(width - 1, x0 + grid_cell // 2)
+            center_y = min(height - 1, y0 + grid_cell // 2)
+            coordinate = source_coordinate(
+                center_x, center_y, width, height, edge_warp
+            )
+            amount = sampled_light_amount(
+                source_pixels,
+                coordinate,
+                width,
+                height,
+                grid_cell,
+                outside_color,
+            )
+            if amount <= SHADOW_CUTOFF:
+                color = DARK
+            elif amount >= LIGHT_CUTOFF:
+                color = LIGHT
             else:
-                dark_count += 1
+                grid_x = x0 // grid_cell
+                grid_y = y0 // grid_cell
+                color = LIGHT if (grid_x + grid_y) % 2 == 0 else DARK
+            result.paste(color, (x0, y0, x1, y1))
+            area = (x1 - x0) * (y1 - y0)
+            if SHADOW_CUTOFF < amount < LIGHT_CUTOFF:
+                checker_area += area
+            if color == LIGHT:
+                light_count += area
+            else:
+                dark_count += area
 
     should_invert = (polarity == "positive" and dark_count > light_count) or (
         polarity == "negative" and light_count > dark_count
     )
     if should_invert:
+        result_pixels = result.load()
         for y in range(height):
             for x in range(width):
                 result_pixels[x, y] = DARK if result_pixels[x, y] == LIGHT else LIGHT
         light_count, dark_count = dark_count, light_count
+
+    scanline_period = max(6, grid_cell * 3)
+    scanline_pixels = apply_surface_scanlines(result, scanline_period)
+    light_count -= scanline_pixels
+    dark_count += scanline_pixels
 
     destination.parent.mkdir(parents=True, exist_ok=True)
     result.save(destination, format="PNG", optimize=False)
@@ -124,6 +205,16 @@ def finalize(
         "polarity": "positive" if light_count >= dark_count else "negative",
         "edge_warp_band": "outer_10_percent",
         "edge_warp_strength": edge_warp,
+        "halftone": "alternating_checkerboard_only",
+        "checkerboard_area_pixels": checker_area,
+        "checkerboard_canvas_share": round(checker_area / (width * height), 4),
+        "global_grid_cell_px": grid_cell,
+        "global_grid_dimensions": (
+            math.ceil(width / grid_cell),
+            math.ceil(height / grid_cell),
+        ),
+        "grid_scope": "subject_windows_text_icons_shared",
+        "surface_scanline_period_px": scanline_period,
         "light_pixels": light_count,
         "dark_pixels": dark_count,
     }
@@ -131,7 +222,15 @@ def finalize(
 
 def main() -> None:
     args = parse_args()
-    print(finalize(args.input, args.output, args.polarity, args.edge_warp))
+    print(
+        finalize(
+            args.input,
+            args.output,
+            args.polarity,
+            args.edge_warp,
+            args.grid_cell,
+        )
+    )
 
 
 if __name__ == "__main__":
