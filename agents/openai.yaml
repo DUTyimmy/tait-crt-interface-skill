@@ -1,4 +1,4 @@
 interface:
   display_name: "CRT Retro Interface Illustrator"
-  short_description: "Create one abstract two-color curved CRT pixel portrait"
-  default_prompt: "Use $crt-retro-interface-illustrator to reinterpret this subject as one abstract two-color curved CRT interface illustration."
+  short_description: "Create one strict-grid two-color CRT wallpaper"
+  default_prompt: "Use $crt-retro-interface-illustrator to rebuild this subject as one abstract strict-grid CRT wallpaper beneath varied floating windows."
