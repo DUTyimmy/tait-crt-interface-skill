@@ -1,12 +1,12 @@
-[简体中文](#简体中文) · [English](#english)
+# TaiT CRT Interface Skill
 
-# Tait CRT Interface Skill
+TaiT-CRT-Interface-Skill是一个Codex的图片生成skill，将用户上传的人像、摄影或文字描述等主题设计成一张带有早期CRT计算机界面质感的复古插画。
 
-把人物、生物、物品或其他视觉主题重新绘制成一张带有早期计算机界面、共享像素网格与老式 CRT 信号质感的复古插画。
+TaiT-CRT-Interface-Skill is a Codex image generation skill that transforms user-uploaded portraits, photographs, or text descriptions into a retro illustration with the feel of an early CRT computer interface.
 
-Turn a portrait, creature, object, or visual theme into a retro illustration built from early computer-interface graphics, a shared pixel grid, and an aged CRT signal surface.
+---
 
-## 参考图 / Examples
+## 生成示例 / Examples
 
 <table border="1" cellspacing="0" cellpadding="8">
   <thead>
@@ -53,13 +53,9 @@ Turn a portrait, creature, object, or visual theme into a retro illustration bui
 
 ---
 
-## 简体中文
+### 调用名称
 
-### 简介
-
-`tait-crt-interface-skill` 是一个用于 Codex 的图像生成 Skill。它不会简单地给参考图添加像素化滤镜，而是提取主体最有辨识度的特征，将其抽象、卡通化和扁平化，再重新构造成上世纪 80 年代 CRT 终端里的像素插画。
-
-可调用名称为：`tait-crt-interface-skill`。
+在codex中可调用的名称为：`tait-crt-interface-skill`。
 
 ### 视觉特征
 
@@ -113,66 +109,3 @@ Turn a portrait, creature, object, or visual theme into a retro illustration bui
 - `assets/`：色卡等交互资产
 - `references/`：色彩与需求规范
 - `scripts/`：共享像素网格、色卡约束、CRT 畸变与固定署名处理
-
----
-
-## English
-
-### Overview
-
-`tait-crt-interface-skill` is an image-generation Skill for Codex. Instead of applying a pixelation filter to a reference, it extracts the subject's most recognizable traits, abstracts and flattens them, and redraws the result as a stylized pixel illustration from an imagined 1980s CRT terminal.
-
-Callable name: `tait-crt-interface-skill`.
-
-### Visual Direction
-
-- One dominant pixel-art subject used as borderless system wallpaper
-- Early Macintosh, Minitel, and 8-bit computer-interface language
-- Three to six floating windows with varied sizes, proportions, and positions
-- One to three feature-extraction windows for eyes, accessories, or other distinctive details
-- One shared square-pixel lattice across the subject, text, icons, and windows
-- Checkerboard optical midtones, hard stair-step edges, scanlines, bloom, noise, and signal interference
-- Mandatory spherical CRT barrel distortion around all four edges
-- Multiple preset palettes or a custom two-to-five-color palette derived from the uploaded image
-- A fixed `tait-crt-interface-skill` signature
-
-### Installation
-
-Place the complete Skill folder in the Codex skills directory:
-
-```text
-~/.codex/skills/tait-crt-interface-skill
-```
-
-Restart Codex if the Skill does not appear immediately.
-
-### Usage
-
-Upload a reference image and invoke the Skill by name:
-
-```text
-Use $tait-crt-interface-skill to turn this image into a retro CRT computer-interface illustration.
-```
-
-When the request does not already include them, the Skill asks for two choices in separate turns:
-
-1. Choose `经典`, `粉黛`, `极客01`, `极客02`, `游戏01`, `游戏02`, or reply `如图` to derive colors from the uploaded image.
-2. Choose `3:4`, `4:3`, `9:16`, `16:9`, or enter another aspect ratio.
-
-You can provide both choices in the initial request to generate immediately:
-
-```text
-Use $tait-crt-interface-skill to generate an image with the 极客02 palette at 4:3.
-```
-
-### Output
-
-Each invocation generates and returns exactly one finished raster image. The Skill does not reveal its internal prompt, create multiple automatic variants, or produce and upscale a low-resolution precursor.
-
-### Folder Structure
-
-- `SKILL.md`: complete workflow, composition rules, and quality gates
-- `README.md`: Simplified Chinese and English usage guide
-- `assets/`: palette card and other interaction assets
-- `references/`: color and requirements specifications
-- `scripts/`: shared-grid, palette, CRT-distortion, and locked-signature finalization
