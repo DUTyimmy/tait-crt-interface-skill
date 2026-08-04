@@ -3,7 +3,7 @@ name: tait-crt-interface-skill
 description: Generate exactly one finished CRT retro computer-interface raster illustration from an uploaded portrait, creature, object, or described theme. Use when the user wants a circa-1980s cartoon subject rebuilt as borderless pixel wallpaper beneath early Macintosh or Minitel-style windows. Before generation, collect a named or image-derived palette and an aspect ratio through a strict two-stage intake unless the request already supplies them. Preserve one shared pixel lattice, checkerboard midtones, unequal feature-extraction windows, mandatory barrel-curved CRT edges, and the immutable tait-crt-interface-skill title-bar signature. Never trace, auto-pixelate, duplicate subjects, retry, resize, or expose prompts.
 ---
 
-# CRT Retro Interface Illustrator
+# tait-crt-interface-skill
 
 ## Mode Policy
 
