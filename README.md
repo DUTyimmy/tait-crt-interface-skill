@@ -1,6 +1,10 @@
 # TaiT CRT Interface Skill
 
+<<<<<<< Updated upstream
 ![Uploading exec-12a44a07-17ed-480a-b55e-01fc736df91f.png…]()
+=======
+![TaiT CRT Interface Skill Banner](assets/banner.png)
+>>>>>>> Stashed changes
 
 TaiT-CRT-Interface-Skill是一个Codex的图片生成skill，将用户上传的人像、摄影或文字描述等主题设计成一张带有早期CRT计算机界面质感的复古插画。
 
