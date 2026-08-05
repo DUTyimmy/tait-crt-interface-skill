@@ -67,10 +67,16 @@ TaiT-CRT-Interface-Skill is a Codex image generation skill that transforms user-
 
 ### 安装
 
-将整个 Skill 文件夹放入 Codex 的技能目录：
+方法一：将整个 Skill 文件夹下载后放入本地 Codex 的技能目录：
 
 ```text
 ~/.codex/skills/tait-crt-interface-skill
+```
+
+方法二：直接让 Codex 自动安装 Skill：
+
+```text
+请帮我安装这个GitHub链接中的skill：https://github.com/TaiT-tt/tait-crt-interface-skill
 ```
 
 在codex中可调用的名称为：`tait-crt-interface-skill`。
