@@ -1,7 +1,4 @@
 # TaiT CRT Interface Skill
-
-<<<<<<< Updated upstream
-![Uploading exec-12a44a07-17ed-480a-b55e-01fc736df91f.png…]()
 =======
 ![TaiT CRT Interface Skill Banner](assets/banner.png)
 >>>>>>> Stashed changes
