@@ -8,10 +8,12 @@ The authoritative visual selection card is `../assets/tait-crt-interface-color-c
 |---|---|
 | 经典 | `#dee4e0`, `#2e382d` |
 | 粉黛 | `#f2d1d7`, `#7a3f43` |
-| 极客01 | `#f2fcf6`, `#485446`, `#07100b`, `#13f81f` |
+| 极客01 | `#f2fcf6`, `#485446`, `#111e16`, `#13f81f` |
 | 极客02 | `#e8e5df`, `#2ca770`, `#0d3d2d`, `#3e6a9e` |
-| 游戏01 | `#e7f5fe`, `#7befa4`, `#2fd9e7`, `#ef9b9b`, `#03101b` |
-| 游戏02 | `#efca54`, `#5d9f58`, `#e870a1`, `#bbb8a5`, `#49473c` |
+| 复古01 | `#efca54`, `#5d9f58`, `#e870a1`, `#bbb8a5`, `#49473c` |
+| 复古02 | `#e5e2be`, `#ef8a45`, `#317e50`, `#8e6442`, `#35342f` |
+| 游戏01 | `#22e6da`, `#fabf37`, `#e90cbe`, `#2a4ac5`, `#1d2c6b` |
+| 游戏02 | `#e7f5fe`, `#7bd699`, `#3bc4c4`, `#c97979`, `#29383a` |
 | 如图 | Derive 2-5 colors from the uploaded reference's visual style, atmosphere, and emotional tone. |
 
 ## Palette Question
@@ -22,7 +24,7 @@ After displaying the bundled card, ask only:
 
 If the card image cannot be rendered, use this text fallback:
 
-`请选择色卡：经典（#dee4e0 / #2e382d）、粉黛（#f2d1d7 / #7a3f43）、极客01（#f2fcf6 / #485446 / #07100b / #13f81f）、极客02（#e8e5df / #2ca770 / #0d3d2d / #3e6a9e）、游戏01（#e7f5fe / #7befa4 / #2fd9e7 / #ef9b9b / #03101b）、游戏02（#efca54 / #5d9f58 / #e870a1 / #bbb8a5 / #49473c），或回复“如图”由 Skill 根据上传图片创作 2–5 色。请直接回复名称。`
+`请选择色卡：经典（#dee4e0 / #2e382d）、粉黛（#f2d1d7 / #7a3f43）、极客01（#f2fcf6 / #485446 / #111e16 / #13f81f）、极客02（#e8e5df / #2ca770 / #0d3d2d / #3e6a9e）、复古01（#efca54 / #5d9f58 / #e870a1 / #bbb8a5 / #49473c）、复古02（#e5e2be / #ef8a45 / #317e50 / #8e6442 / #35342f）、游戏01（#22e6da / #fabf37 / #e90cbe / #2a4ac5 / #1d2c6b）、游戏02（#e7f5fe / #7bd699 / #3bc4c4 / #c97979 / #29383a），或回复“如图”由 Skill 根据上传图片创作 2–5 色。请直接回复名称。`
 
 Do not append the ratio question or any generation commentary in this turn. Do not substitute an older color-card image.
 
