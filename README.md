@@ -102,7 +102,7 @@ TaiT-CRT-Interface-Skill is a Codex image generation skill that transforms user-
 使用 $tait-crt-interface-skill 生成图片，极客02色卡，4:3比例
 ```
 
-3. 如需指定主体的风格模板，可以把 `街头怪诞`、`巨像符号` 或 `冷面几何` 中的任意一个名称直接写进提示词；未写模板名称时，Skill 会继续使用原有风格蓝图与随机变体引擎。例如：
+3. 另外，skill内置了三种比较有代表性的风格模板，分别是 `街头怪诞`/`巨像符号`/`冷面几何` ，可以把任意一个名称直接写进提示词用于生成特定风格；未写模板名称时，Skill 会继续使用原有风格蓝图与随机变体引擎。例如：
 
 ```text
 使用 $tait-crt-interface-skill 生成图片，街头怪诞，极客02色卡，4:3比例
