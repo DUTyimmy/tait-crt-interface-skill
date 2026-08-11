@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Preserve resolution while enforcing one grid, a bounded palette, and CRT warp."""
+"""Preserve resolution while enforcing one grid, a bounded palette, and CRT warp without synthetic halftoning."""
 
 from __future__ import annotations
 
@@ -11,8 +11,6 @@ from pathlib import Path
 from PIL import Image
 
 
-SHADOW_CUTOFF = 0.36
-LIGHT_CUTOFF = 0.64
 SIGNATURE = "tait-crt-interface-skill"
 HEX_COLOR = re.compile(r"^#[0-9a-fA-F]{6}$")
 PIXEL_FONT_5X7 = {
@@ -96,22 +94,6 @@ def endpoint_roles(
     return ordered[0], ordered[-1]
 
 
-def projection_to_light(
-    rgb: tuple[int, int, int],
-    dark: tuple[int, int, int],
-    light: tuple[int, int, int],
-) -> float:
-    delta = tuple(high - low for high, low in zip(light, dark))
-    denominator = sum(component * component for component in delta)
-    if denominator == 0:
-        return 0.0
-    numerator = sum(
-        (value - low) * component
-        for value, low, component in zip(rgb, dark, delta)
-    )
-    return max(0.0, min(1.0, numerator / denominator))
-
-
 def source_coordinate(
     x: int, y: int, width: int, height: int, strength: float
 ) -> tuple[int, int] | None:
@@ -167,28 +149,11 @@ def sampled_average_rgb(
 def choose_cell_color(
     rgb: tuple[int, int, int],
     palette: tuple[tuple[int, int, int], ...],
-    dark: tuple[int, int, int],
-    light: tuple[int, int, int],
-    grid_x: int,
-    grid_y: int,
-) -> tuple[tuple[int, int, int], bool]:
-    accents = tuple(color for color in palette if color not in (dark, light))
-    if accents:
-        accent = min(accents, key=lambda color: color_distance_squared(rgb, color))
-        accent_distance = color_distance_squared(rgb, accent)
-        endpoint_distance = min(
-            color_distance_squared(rgb, dark), color_distance_squared(rgb, light)
-        )
-        if accent_distance < 0.72 * endpoint_distance:
-            return accent, False
-
-    amount = projection_to_light(rgb, dark, light)
-    if amount <= SHADOW_CUTOFF:
-        return dark, False
-    if amount >= LIGHT_CUTOFF:
-        return light, False
-    checker = light if (grid_x + grid_y) % 2 == 0 else dark
-    return checker, True
+) -> tuple[int, int, int]:
+    # Preserve authored checker cells by quantizing each shared-grid cell independently.
+    # Never manufacture an alternating pattern from intermediate luminance: the finalizer
+    # has no semantic mask and therefore cannot safely distinguish skin from other planes.
+    return min(palette, key=lambda color: color_distance_squared(rgb, color))
 
 
 def apply_surface_scanlines(
@@ -286,7 +251,6 @@ def finalize(
     result = Image.new("RGB", image.size, outside_color)
     grid_cell = resolve_grid_cell(width, height, requested_grid_cell)
 
-    checker_area = 0
     for y0 in range(0, height, grid_cell):
         for x0 in range(0, width, grid_cell):
             x1 = min(width, x0 + grid_cell)
@@ -302,17 +266,8 @@ def finalize(
                 grid_cell,
                 outside_color,
             )
-            color, is_checker = choose_cell_color(
-                average,
-                palette,
-                dark,
-                light,
-                x0 // grid_cell,
-                y0 // grid_cell,
-            )
+            color = choose_cell_color(average, palette)
             result.paste(color, (x0, y0, x1, y1))
-            if is_checker:
-                checker_area += (x1 - x0) * (y1 - y0)
 
     counts = result.getcolors(maxcolors=len(palette) + 1) or []
     counts_by_color = {color: count for count, color in counts}
@@ -371,9 +326,8 @@ def finalize(
         "edge_warp_band": "outer_10_percent",
         "edge_warp_strength": edge_warp,
         "barrel_curve": "mandatory_radial_outer_band",
-        "halftone": "alternating_darkest_lightest_checkerboard",
-        "checkerboard_area_pixels": checker_area,
-        "checkerboard_canvas_share": round(checker_area / (width * height), 4),
+        "halftone": "source_authored_only_non_skin_structural_regions",
+        "no_synthetic_checkerboard": True,
         "global_grid_cell_px": grid_cell,
         "global_grid_dimensions": (
             math.ceil(width / grid_cell),

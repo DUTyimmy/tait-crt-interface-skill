@@ -102,6 +102,29 @@ TaiT-CRT-Interface-Skill is a Codex image generation skill that transforms user-
 使用 $tait-crt-interface-skill 生成图片，极客02色卡，4:3比例
 ```
 
+3. 如需指定主体的风格模板，可以把 `街头怪诞`、`巨像符号` 或 `冷面几何` 中的任意一个名称直接写进提示词；未写模板名称时，Skill 会继续使用原有风格蓝图与随机变体引擎。例如：
+
+```text
+使用 $tait-crt-interface-skill 生成图片，街头怪诞，极客02色卡，4:3比例
+```
+
+<table border="1" cellspacing="0" cellpadding="8">
+  <thead>
+    <tr>
+      <th align="center">街头怪诞</th>
+      <th align="center">巨像符号</th>
+      <th align="center">冷面几何</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle"><img src="生成示例/风格模板/街头怪诞.png" alt="街头怪诞风格模板" width="360"></td>
+      <td align="center" valign="middle"><img src="生成示例/风格模板/巨像符号.png" alt="巨像符号风格模板" width="360"></td>
+      <td align="center" valign="middle"><img src="生成示例/风格模板/冷面几何.png" alt="冷面几何风格模板" width="360"></td>
+    </tr>
+  </tbody>
+</table>
+
 另外，也鼓励大家开发此skill的更多玩法，如通过纯文字描述抽象视觉意象生成、带有指定文字信息的复古海报生成、在弹窗中指定自己需要的分析类型（如解剖、六角战力图、运势、场记板、化学式等等），不限玩法，用户的指令已被设定为第一层级，可覆盖本skill大部分固有设定。
 
 ---
