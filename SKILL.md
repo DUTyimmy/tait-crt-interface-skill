@@ -11,17 +11,17 @@ Use one shared content pipeline with two capability-gated execution profiles. Re
 
 ## Execution Profile Gate
 
-Resolve `execution_profile` from advertised capabilities before intake. Use capabilities—not product names, self-description, or user choice—and never call an unavailable tool merely to test it. Retain the profile across palette and ratio turns; never ask the user to choose a profile or switch profiles after generation starts.
+This skill may be invoked in any agent environment; Codex is not required. Resolve `execution_profile` from advertised capabilities before intake. Use capabilities—not product names, self-description, or user choice—and never call an unavailable tool merely to test it. Retain the profile across palette and ratio turns; never ask the user to choose a profile or switch profiles after generation starts.
 
-- Select `codex-full` only when the environment exposes the exact callable `codex_app__load_workspace_dependencies`, local script execution, and a readable local path for the generated image. This profile preserves the existing dependency lookup, Pillow probe, same-resolution `scripts/finalize_crt.py` pass, report inspection, and finalized PNG output exactly as written below.
-- Otherwise select `portable-direct` when an image-generation capability exists. Never call `codex_app__load_workspace_dependencies`, inspect Python or Pillow, search for interpreters, run local scripts, reopen or convert the generated image, or attempt any post-processing. Compile the finalizer-owned visual requirements into the single generation prompt and return that generated image directly after one visual inspection.
+- Select `local-full` only when the environment exposes image generation, local script execution, an available Python interpreter with Pillow, and a readable local path for the generated image. This profile preserves the existing Pillow probe, same-resolution `scripts/finalize_crt.py` pass, report inspection, and finalized PNG output exactly as written below.
+- Otherwise select `portable-direct` when an image-generation capability exists. Never inspect Python or Pillow, search for interpreters, run local scripts, reopen or convert the generated image, or attempt any post-processing. Compile the finalizer-owned visual requirements into the single generation prompt and return that generated image directly after one visual inspection.
 - If no image-generation capability exists, stop once with a concise unsupported-environment message. Do not attempt dependency discovery, script execution, prompt-only text output, or repeated recovery.
 
 ## Two-Stage Intake Gate
 
 Before any image-generation call, parse the current request and retained conversation state for `palette` and `aspect_ratio`. Read `references/palettes.md` whenever selecting, displaying, deriving, or validating color.
 
-1. If `palette` is missing, in `codex-full` display the corrected bundled card `assets/tait-crt-interface-color-card.png` and use the compact text list in `references/palettes.md` only if the image cannot be rendered; in `portable-direct`, use that compact text list immediately without resolving or rendering the asset. Ask the user to reply with one card name or `如图`, then stop the turn. Do not ask for ratio in the same turn and do not generate.
+1. If `palette` is missing, in `local-full` display the corrected bundled card `assets/tait-crt-interface-color-card.png` and use the compact text list in `references/palettes.md` only if the image cannot be rendered; in `portable-direct`, use that compact text list immediately without resolving or rendering the asset. Ask the user to reply with one card name or `如图`, then stop the turn. Do not ask for ratio in the same turn and do not generate.
 2. After palette is known, if `aspect_ratio` is missing, ask only: `请选择生成比例：3:4 / 4:3 / 9:16 / 16:9，也可以直接输入其他比例。` Then stop the turn and do not generate.
 3. Generate immediately only when both fields are known. If the initial invocation supplies one field, skip only that question; if it supplies both, skip the entire intake. Do not reconfirm valid choices.
 
@@ -140,20 +140,20 @@ Compatibility rules:
 5. Compile the prompt once, adding the direct-render closure only for `portable-direct`, and call the available image-generation capability exactly once at native resolution.
 6. Complete the selected delivery path:
 
-   - In `codex-full`, before finalization call `codex_app__load_workspace_dependencies` once and use the returned bundled Python executable, which includes Pillow. Never invoke bare `python`, bare `python3`, or `/usr/bin/python3` for this script. Run without resizing, passing the resolved palette and recipe polarity:
+   - In `local-full`, use an available Python interpreter with Pillow; no product-specific dependency tool or bundled runtime is required. Run without resizing, passing the resolved palette and recipe polarity:
 
      ```bash
-     <bundled-python-executable> scripts/finalize_crt.py --input <generated-image> --output <new-final.png> --palette <comma-separated-hex-colors> --polarity <positive|negative|preserve> --grid-cell 0 --edge-warp 0.12
+     <python-executable> scripts/finalize_crt.py --input <generated-image> --output <new-final.png> --palette <comma-separated-hex-colors> --polarity <positive|negative|preserve> --grid-cell 0 --edge-warp 0.12
      ```
 
-     Map `light-field` to `positive`, `dark-field` to `negative`, and `split-local-fields` to `preserve`. Resolve the script relative to this file, verify the selected interpreter with `from PIL import Image` before the run, and never overwrite the source. If the import probe fails, select another reported workspace interpreter rather than installing packages or falling back to system Python.
+     Map `light-field` to `positive`, `dark-field` to `negative`, and `split-local-fields` to `preserve`. Resolve the script relative to this file, verify the selected interpreter with `from PIL import Image` before the run, and never overwrite the source. If the import probe fails, select another available interpreter with Pillow rather than installing packages.
 
    - In `portable-direct`, treat the generated image as final. Do not call dependency tools, probe or install packages, run any Python, locate the finalizer, create an intermediate image, or initiate a second generation/editing pass.
-7. Inspect once against the profile-specific Quality Gate. Never regenerate automatically. In `codex-full` return only the finalized image; in `portable-direct` return only the original generated image.
+7. Inspect once against the profile-specific Quality Gate. Never regenerate automatically. In `local-full` return only the finalized image; in `portable-direct` return only the original generated image.
 
 ## Quality Gate
 
-- `execution_profile` was resolved before intake and remained stable. `codex-full` ran the complete existing finalization path; `portable-direct` made no dependency, interpreter, Pillow, filesystem-finalizer, image-conversion, or post-processing attempt.
+- `execution_profile` was resolved before intake and remained stable. `local-full` ran the complete existing finalization path; `portable-direct` made no dependency, interpreter, Pillow, filesystem-finalizer, image-conversion, or post-processing attempt.
 - Both intake fields were resolved before generation; the canvas matches the selected ratio and the final palette matches the named or derived choice.
 - If an exact style preset was supplied, the compiled blueprint contains its fixed style block and all six locked subject-axis values while the remaining axes adapt to the actual reference and ratio. If none was supplied, no preset was mentioned or silently applied and the normal blueprint/Variation Engine path was used.
 - Priority 1 passes before interface polish: the subject reads immediately as an independently authored, adult 1980s bitmap editorial caricature—angular, graphic, asymmetrical, personality-rich, and optionally strange, funny, awkward, grotesque, or charmingly ugly. Only 3-5 semantic identity anchors survive per roster member; one major proportion mutation, one major silhouette mutation, and at least one additional structural change are plainly visible. Five to nine large masses, not copied local detail, carry recognition. No non-anchor garment construction, print, ornament, jewelry inventory, fold, facial modeling, or photographic contour remains. Its silhouette cannot be closely overlaid on the source, and removing UI/CRT texture cannot reveal realistic pixel portraiture, a traced or filtered photograph, polished game-sprite anatomy, anime/chibi art, cute mascot art, children's-book illustration, or generic clip art.
@@ -163,7 +163,7 @@ Compatibility rules:
 - Exactly one borderless wallpaper composition covers at least 50%, preferably 60%-80%; it contains the full locked roster, no similarly sized copy appears, and any detail crop is small and partial.
 - One to three feature-extraction windows appear. Every crop isolates a distinctive partial element, uses the shared cell `p`, and differs from every other extraction in both dimensions and aspect ratio.
 - Windows follow the selected count, constellation, and hierarchy; they span multiple quadrants, overlap without hiding too much subject, avoid rigid equal-size stacks, and preserve 20%-30% connected open field.
-- In `codex-full`, dimensions match the generated source and the report contains only colors from the resolved 2-5-color palette, confirms `no_synthetic_checkerboard`, and reports one global grid cell shared by all content. Zero checkerboard is valid because finalization must preserve authored structural checks without creating new ones.
+- In `local-full`, dimensions match the generated source and the report contains only colors from the resolved 2-5-color palette, confirms `no_synthetic_checkerboard`, and reports one global grid cell shared by all content. Zero checkerboard is valid because finalization must preserve authored structural checks without creating new ones.
 - In `portable-direct`, judge palette restriction, whole square cells, shared subject/UI/text scale, scanlines, barrel curvature, and the fixed signature visually in the one generated image. Do not claim deterministic pixel, color, resolution, or report verification; do not repair a failure with tools, scripts, resizing, or another image call.
 - Bitmap glyphs, palette-bound bloom, scanlines, noise, persistence, and misregistration remain visible. The outer 10% shows unmistakable radial barrel curvature on all four sides, with stronger corner compression and visibly bowed long lines, while the center remains stable.
 - The upper-right title bar contains the exact readable lowercase string `tait-crt-interface-skill` in the same shared-grid bitmap style as the left label rail. It is not missing, misspelled, translated, obscured, or replaced.
@@ -171,7 +171,7 @@ Compatibility rules:
 
 ## Hard Avoids
 
-- selecting an execution profile from an Agent or product name, asking the user to choose a profile, probing unavailable tools, calling Codex-only tools in `portable-direct`, inspecting or installing Python/Pillow in `portable-direct`, running the finalizer in `portable-direct`, or switching profiles after generation begins
+- selecting an execution profile from an Agent or product name, asking the user to choose a profile, probing unavailable tools, calling dependency tools in `portable-direct`, inspecting or installing Python/Pillow in `portable-direct`, running the finalizer in `portable-direct`, or switching profiles after generation begins
 - generation before both intake fields are known, asking palette and ratio in one turn when both are absent, reconfirming supplied fields, or silently substituting a default palette/ratio
 - asking users to choose a style preset, recommending one without request, silently defaulting to one, ignoring an exact supplied preset, blending two presets, replacing subject content with preset-example props, or allowing a preset to omit/merge roster members
 - realistic likeness painting or pixel portraiture, source-matching silhouette/proportions/pose, preserved garment construction, copied prints/ornaments/jewelry/folds/local contours, cutout plus pixel filter, mosaic overlay, posterization, auto-pixelation, literal tracing, photographic outlines, polished game-sprite anatomy, anime/chibi or kawaii language, cute mascots, children's-book or schoolbook illustration, generic clip art, clean vector-cartoon outlines, fine hair/pores/folds, smooth shading, flowing contours, repeated rounded features, chains of small variable arcs, ornamental curves, blurred or rectangular pixels, subject-only macro pixels larger than UI pixels, half/stretched/rotated cells, smooth sub-cell transitions, shifted rows, broken cell topology, unaligned grids, excessive contour decisions beyond the approximate 30x30 planning budget, or subdivided cells
@@ -185,4 +185,4 @@ Only when modifying this skill, first read `references/requirements.md`, `refere
 
 ## Output
 
-During intake, return only the single required question. After both fields are resolved, return only one image at the generator's original resolution: the finalized PNG in `codex-full`, or the untouched generator output in `portable-direct`. If no image-generation capability exists, return only the concise unsupported-environment message.
+During intake, return only the single required question. After both fields are resolved, return only one image at the generator's original resolution: the finalized PNG in `local-full`, or the untouched generator output in `portable-direct`. If no image-generation capability exists, return only the concise unsupported-environment message.

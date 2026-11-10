@@ -1,9 +1,9 @@
 # TaiT CRT Interface Skill
 ![TaiT CRT Interface Skill Banner](assets/banner.png)
 
-TaiT-CRT-Interface-Skill是一个Codex的图片生成skill，将用户上传的人像、摄影或文字描述等主题设计成一张带有早期CRT计算机界面质感的复古插画。
+TaiT-CRT-Interface-Skill是一个不依赖特定 Agent 环境的图片生成skill，将用户上传的人像、摄影或文字描述等主题设计成一张带有早期CRT计算机界面质感的复古插画。
 
-TaiT-CRT-Interface-Skill is a Codex image generation skill that transforms user-uploaded portraits, photographs, or text descriptions into a retro illustration with the feel of an early CRT computer interface.
+TaiT-CRT-Interface-Skill is an environment-independent image generation skill that transforms user-uploaded portraits, photographs, or text descriptions into a retro illustration with the feel of an early CRT computer interface.
 
 ---
 
@@ -67,19 +67,21 @@ TaiT-CRT-Interface-Skill is a Codex image generation skill that transforms user-
 
 ### 安装
 
-方法一：将整个 Skill 文件夹下载后放入本地 Codex 的技能目录：
+不要求 Codex 环境；在支持加载 Skill 且具备图片生成能力的 Agent 中即可使用。具备 Python/Pillow 和本地文件处理能力时执行完整后处理，否则直接交付生成图片。
+
+方法一：将整个 Skill 文件夹下载后放入所用 Agent 的技能目录，例如 Codex：
 
 ```text
 ~/.codex/skills/tait-crt-interface-skill
 ```
 
-方法二：直接让 Codex 自动安装 Skill：
+方法二：直接让支持 Skill 安装的 Agent 自动安装 Skill：
 
 ```text
 请帮我安装这个GitHub链接中的skill：https://github.com/TaiT-tt/tait-crt-interface-skill
 ```
 
-在codex中可调用的名称为：`tait-crt-interface-skill`。
+可调用的名称为：`tait-crt-interface-skill`。
 
 ### 使用方法
 
