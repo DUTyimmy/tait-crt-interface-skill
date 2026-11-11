@@ -67,7 +67,7 @@ TaiT-CRT-Interface-Skill is an environment-independent image generation skill th
 
 ### 安装
 
-不要求 Codex 环境；在支持加载 Skill 且具备图片生成能力的 Agent 中即可使用。具备 Python/Pillow 和本地文件处理能力时执行完整后处理，否则直接交付生成图片。
+生成图片后，Skill 会使用 Python 和 Pillow 运行随附脚本，按原分辨率输出最终 PNG。
 
 方法一：将整个 Skill 文件夹下载后放入所用 Agent 的技能目录，例如 Codex：
 
