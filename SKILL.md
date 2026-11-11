@@ -1,15 +1,15 @@
 ---
 name: tait-crt-interface-skill
-description: Generate exactly one finished CRT retro computer-interface illustration from an uploaded portrait, group photo, creature, object, or described theme. Use when the user wants anchored subjects re-authored as an exaggerated circa-1980s bitmap editorial caricature beneath early Macintosh or Minitel-style windows, optionally invoking the exact Chinese presets 街头怪诞, 巨像符号, or 冷面几何. Before generation, collect a named or image-derived palette and aspect ratio through a strict two-stage intake unless supplied. Preserve each intended subject as a distinct identity, one shared pixel lattice, restricted non-skin checkerboard midtones, low-facet geometry, unequal extraction windows, mandatory barrel-curved CRT edges, and the immutable tait-crt-interface-skill title-bar signature. Never trace, auto-pixelate, imitate photographic detail, omit, merge, or duplicate subjects, retry, resize, expose prompts, or ask users to choose a style preset.
+description: Generate exactly one finished CRT retro computer-interface illustration from an uploaded portrait, group photo, creature, object, or described theme. Use when the user wants anchored subjects re-authored as an exaggerated circa-1980s bitmap editorial caricature beneath early Macintosh or Minitel-style windows, optionally invoking the exact Chinese presets 街头怪诞, 巨像符号, or 冷面几何. Before generation, show the color card for selection, then ask for the aspect ratio, skipping choices already supplied. Preserve each intended subject as a distinct identity, one shared pixel lattice, restricted non-skin checkerboard midtones, low-facet geometry, unequal extraction windows, mandatory barrel-curved CRT edges, and the immutable tait-crt-interface-skill title-bar signature. Never trace, auto-pixelate, imitate photographic detail, omit, merge, or duplicate subjects, retry, resize, expose prompts, or ask users to choose a style preset.
 ---
 
 # tait-crt-interface-skill
 
 ## Two-Stage Intake Gate
 
-Before any image-generation call, parse the current request and retained conversation state for `palette` and `aspect_ratio`. Read `references/palettes.md` whenever selecting, displaying, deriving, or validating color.
+Before any image-generation call, parse the current request and retained conversation state for `palette` and `aspect_ratio`. Use `references/palettes.md` internally to resolve the selected colors for generation.
 
-1. If `palette` is missing, display `assets/tait-crt-interface-color-card.png` and ask the user to choose a card name or reply `如图`. If the image cannot be displayed, show the palette list from `references/palettes.md`. Wait for the choice before asking about the aspect ratio.
+1. If the user has not chosen colors, display only the bundled image `assets/tait-crt-interface-color-card.png` and wait for their choice.
 2. After palette is known, if `aspect_ratio` is missing, ask only: `请选择生成比例：3:4 / 4:3 / 9:16 / 16:9，也可以直接输入其他比例。` Then stop the turn and do not generate.
 3. Generate immediately only when both fields are known. If the initial invocation supplies one field, skip only that question; if it supplies both, skip the entire intake. Do not reconfirm valid choices.
 
@@ -164,4 +164,4 @@ Only when modifying this skill, first read `references/requirements.md`, `refere
 
 ## Output
 
-When asking for a palette, show the card with the selection question. Ask for the aspect ratio separately if needed. After generation and finalization, return the finalized PNG at the original resolution. If a required step cannot be completed, briefly identify the missing capability or failed step.
+For color selection, return only the color card image. Ask for the aspect ratio separately if needed. After generation and finalization, return the finalized PNG at the original resolution. If a required step cannot be completed, briefly identify the missing capability or failed step.
